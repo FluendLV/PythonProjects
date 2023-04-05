@@ -138,7 +138,8 @@ def nim_game():
                         draw_text(f"{winner} wins!", FONT, BLACK, WIDTH // 2, HEIGHT // 2)
                         pygame.display.update()
                         time.sleep(3)
-
+                        #TODO restard game
+                        return nim_game()
                     TURN = AI_TURN
                     print(stones)
                 elif x > 200 and x < 300 and y > 350 and y < 450:
@@ -149,8 +150,8 @@ def nim_game():
                         draw_text(f"{winner} wins!", FONT, BLACK, WIDTH // 2, HEIGHT // 2)
                         pygame.display.update()
                         time.sleep(3)
-                        stones = 25
-
+                        #TODO restard game
+                        return nim_game()
                     clear_Area(stones)
                     TURN = AI_TURN
                     print(stones)
@@ -162,8 +163,8 @@ def nim_game():
                         draw_text(f"{winner} wins!", FONT, BLACK, WIDTH // 2, HEIGHT // 2)
                         pygame.display.update()
                         time.sleep(5)
-                        stones = 25
-
+                        #TODO restard game
+                        return nim_game()
                     clear_Area(stones)
                     TURN = AI_TURN
                     print(stones)
@@ -182,6 +183,7 @@ def nim_game():
                     draw_text(f"{winner} wins!", FONT, BLACK, WIDTH // 2, HEIGHT // 2)
                     pygame.display.update()
                     time.sleep(3)
+                    return nim_game()
             TURN = HUMAN_TURN
             print(stones)
 
