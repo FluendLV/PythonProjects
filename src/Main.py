@@ -1,6 +1,5 @@
 import pygame
 import time
-import random
 
 # initialize pygame library
 pygame.init()
@@ -39,49 +38,48 @@ def draw_stones(stones):
     draw_text(str(stones) + " stones remaining", FONT, BLACK, x, y)
 
 def clear_Area(stones):
+    """function to clear the area"""
     WINDOW.fill(WHITE, (100, 180, 400, 100))
     draw_stones(stones)
 
 def get_ai_move(stones, currentTurn):
-    global AI_START
-    print("Stones: ", stones)
-    """function to get AI move using minimax algorithm"""
+    """Function to get AI move using the minimax algorithm."""
+    global AI_START            # Use the global flag to determine if AI is the maximizer or not
     if currentTurn == 2 and stones == 25:
-        AI_START = True
-
-    if stones < 4:
+        AI_START = True        # If it is the beginning of the game and AI starts, it is the maximizer
+        
+    if stones < 4:             # If there are less than 4 stones left, the only possible move is to take all of them
         return stones
     else:
         best_move = None
-        best_score = float('-inf')
-        for move in range(1, 4):
-            new_stones = stones - move
-            print(AI_START)
-            score = minimax(new_stones, not AI_START)
-            if score > best_score:
+        best_score = float('-inf') # Initialize the best score to negative infinity
+        for move in range(1, 4):   # Loop through all possible moves and find the one with the best score
+            new_stones = stones - move 
+            score = minimax(new_stones, not AI_START)  # Calculate the minimax score for the new node
+            if score > best_score:                     # Update the best score and best move if the current move has a better score
                 best_score = score
                 best_move = move
         return best_move
 
 def minimax(stones, is_maximizing):
-    """function to calculate minimax score"""
-    if stones == 0:
+    """Recursive function to calculate minimax score for a given node in the game tree."""
+    if stones == 0:             # If the node is a leaf (i.e. no stones left), return the appropriate score
         if is_maximizing:
             return -1
         else:
             return 1
-    elif stones < 0:
-        return float('-inf') if is_maximizing else float('inf')
-    elif is_maximizing:
+    elif stones < 0:            # If the move is illegal (i.e. negative stones), return the appropriate score
+        return float('-inf') if is_maximizing else float('inf') 
+    elif is_maximizing:        # If it is maximizer's turn, calculate the maximum possible score among all child nodes
         max_score = float('-inf')
         for move in range(1, 4):
-            score = minimax(stones - move, False)
+            score = minimax(stones - move, False)   # Recursively calculate minimax scores for child nodes
             max_score = max(max_score, score)
         return max_score
-    else:
+    else:                      # If it is minimizer's turn, calculate the minimum possible score among all child nodes
         min_score = float('inf')
         for move in range(1, 4):
-            score = minimax(stones - move, True)
+            score = minimax(stones - move, True)    # Recursively calculate minimax scores for child nodes
             min_score = min(min_score, score)
         return min_score
 
@@ -138,10 +136,8 @@ def nim_game():
                         draw_text(f"{winner} wins!", FONT, BLACK, WIDTH // 2, HEIGHT // 2)
                         pygame.display.update()
                         time.sleep(3)
-                        #TODO restard game
                         return nim_game()
                     TURN = AI_TURN
-                    print(stones)
                 elif x > 200 and x < 300 and y > 350 and y < 450:
                     stones -= 2
                     if stones <= 0:
@@ -150,11 +146,9 @@ def nim_game():
                         draw_text(f"{winner} wins!", FONT, BLACK, WIDTH // 2, HEIGHT // 2)
                         pygame.display.update()
                         time.sleep(3)
-                        #TODO restard game
                         return nim_game()
                     clear_Area(stones)
                     TURN = AI_TURN
-                    print(stones)
                 elif x > 300 and x < 400 and y > 350 and y < 450:
                     stones -= 3
                     if stones <= 0:
@@ -163,11 +157,9 @@ def nim_game():
                         draw_text(f"{winner} wins!", FONT, BLACK, WIDTH // 2, HEIGHT // 2)
                         pygame.display.update()
                         time.sleep(5)
-                        #TODO restard game
                         return nim_game()
                     clear_Area(stones)
                     TURN = AI_TURN
-                    print(stones)
 
         # AI move
         if TURN == AI_TURN and winner is None:
